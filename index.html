@@ -7,12 +7,35 @@
     <style>
         body { margin: 0; background: #222; }
         
-        .room { position: relative; width: 100%; max-width: 960px; margin: 0 auto; container-type: inline-size; display: grid;}
+        .room { position: relative; width: 100%; margin: 0 auto; container-type: inline-size; display: grid; --width: 208}
         
         .room img {
             display: block;
             width: 100%;
             image-rendering: pixelated;
+
+        }
+
+        .room clickable img{
+            position: absolute;
+            inset: 0;
+            pointer-events: auto;
+            --clip-top:0;
+            --clip-right:0;
+            --clip-bottom:0;
+            --clip-left:0;
+            clip-path: inset(calc(var(--clip-top)*100cqw/var(--width)) calc(var(--clip-right)*100cqw/var(--width)) calc(var(--clip-bottom)*100cqw/var(--width)) calc(var(--clip-left)*100cqw/var(--width)));
+        }
+
+        .room clickable img:hover {
+            --outline-thickness: 0.55cqw;            /* outline thickness, scales with room size */
+            --outline-color: white;           /* outline color */
+            filter:
+                drop-shadow(var(--outline-thickness) 0 0 var(--outline-color))
+                drop-shadow(calc(-1 * var(--outline-thickness)) 0 0 var(--outline-color))
+                drop-shadow(0 var(--outline-thickness) 0 var(--outline-color))
+                drop-shadow(0 calc(-1 * var(--outline-thickness)) 0 var(--outline-color));
+            cursor: pointer;
         }
 
         .room > * {
@@ -24,14 +47,22 @@
 </head>
 <body>
     <div class="room">
-	<div><img src="https://assassinsquid2021.github.io/web-elements/background.png"></div>
-	<div><img src="https://assassinsquid2021.github.io/web-elements/recliner.png"></div>
-	<div><img src="https://assassinsquid2021.github.io/web-elements/me_sitting.png"></div>
- 	<div><img src="https://assassinsquid2021.github.io/web-elements/recliner_foreground.png"></div>
- 	<div><img src="https://assassinsquid2021.github.io/web-elements/home/guitar.png"></div>
-</div>
-
+        <!-- Background -->
+        <div><img src="https://assassinsquid2021.github.io/web-elements/background.png"></div>
+        <div><img src="https://assassinsquid2021.github.io/web-elements/recliner.png"></div>
+        <!-- Clickable -->
+        <clickable>
+            <div><img 
+                src="https://assassinsquid2021.github.io/web-elements/me_sitting.png"
+                style="--clip-top:38; --clip-right:48; --clip-bottom:0; --clip-left:118;"></div>
+            <div><img    
+            src="https://assassinsquid2021.github.io/web-elements/home/guitar.png"
+            style="--clip-top:20; --clip-right:183; --clip-bottom:26; --clip-left:5;"></div>
+        </clickable>
+        <!-- Foreground-->
+        <div style="z-index: 1; pointer-events: none;">
+            <div><img src="https://assassinsquid2021.github.io/web-elements/recliner_foreground.png"></div>
+        </div>
     </div>
-
 </body>
 </html>
